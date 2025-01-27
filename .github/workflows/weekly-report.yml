@@ -1,0 +1,16 @@
+name: Weekly Report
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # 每周一00:00运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate Report
+        run: |
+          python scripts/generate_report.py
+          git config --global user.name "Report Bot"
+          git add reports/ && git commit -m "Auto: weekly report"
+          git push
